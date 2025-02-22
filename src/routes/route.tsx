@@ -1,4 +1,6 @@
 import Main from "@/layout/Main";
+import About from "@/pages/AboutUs/About";
+import AllProduct from "@/pages/AllProduct/AllProduct";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/HomePage/Home";
 import Login from "@/pages/Login";
@@ -13,6 +15,14 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/all-product",
+        element: <AllProduct />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
     ],
   },
