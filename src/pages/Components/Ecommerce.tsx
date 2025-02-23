@@ -99,7 +99,7 @@ export default function EcommerceSections() {
             <Card key={index} className="p-6 shadow-md">
               <CardContent>
                 <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
-                <p className="text-muted-foreground mb-4">{blog.description}</p>
+                <p className=" mb-4">{blog.description}</p>
                 <Link
                   to={blog.link}
                   className="text-primary font-medium hover:underline">
