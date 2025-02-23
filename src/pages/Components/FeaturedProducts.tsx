@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import ProductCard from "./ProductCard";
 
 const products = [
   {
@@ -65,19 +65,7 @@ export default function FeaturedProducts() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
-          <Card key={product.id} className="p-4 shadow-md">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-48 object-cover rounded-md"
-            />
-            <CardContent className="text-center space-y-3 mt-4">
-              <h3 className="text-xl font-semibold">{product.name}</h3>
-              <p className="text-muted-foreground">{product.description}</p>
-              <p>{product.category}</p>
-              <span className="text-lg font-bold">{product.price}</span>
-            </CardContent>
-          </Card>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
