@@ -5,11 +5,16 @@ import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
+import { useLogin } from "@/hooks/use-login";
+import { onOpen } from "@/redux/features/login/loginSlice";
+import { useRegister } from "@/hooks/use-register";
 
 export default function Navbar() {
   const isLoading = false;
   const isAuthenticated = false;
   const scrolled = useScrollTop();
+  const { onOpen: openLogin } = useLogin();
+  const { onOpen: openRegister } = useRegister();
 
   const navList = (
     <>
@@ -92,10 +97,13 @@ export default function Navbar() {
           {isLoading && <Spinner />}
           {!isAuthenticated && !isLoading && (
             <>
-              <Button variant={"ghost"} size={"sm"}>
+              <Button onClick={openLogin} variant={"ghost"} size={"sm"}>
                 Log in
               </Button>
-              <Button size={"sm"}>Register</Button>
+
+              <Button onClick={openRegister} size={"sm"}>
+                Register
+              </Button>
             </>
           )}
           {isAuthenticated && !isLoading && (
@@ -103,6 +111,11 @@ export default function Navbar() {
               <Button variant={"ghost"} size={"sm"}>
                 <Link to="/dashboard">Dashboard</Link>
               </Button>
+
+              <Button size={"sm"} onClick={() => {}}>
+                Logout
+              </Button>
+
               <h1>User Profile</h1>
             </>
           )}

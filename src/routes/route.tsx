@@ -3,7 +3,6 @@ import About from "@/pages/AboutUs/About";
 import AllProduct from "@/pages/AllProduct/AllProduct";
 import ErrorPage from "@/pages/ErrorPage/ErrorPage";
 import Home from "@/pages/HomePage/Home";
-import Login from "@/pages/Login";
 import { createBrowserRouter } from "react-router-dom";
 
 const routes = createBrowserRouter([
@@ -27,8 +26,8 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/Dashboard",
+    element: <div>Dashboard</div>,
   },
 ]);
 
