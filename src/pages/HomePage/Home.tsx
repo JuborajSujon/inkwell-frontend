@@ -1,5 +1,5 @@
-import { ModeToggle } from "@/components/mode-toggle";
 import { Helmet } from "react-helmet-async";
+import Banner from "../Components/Banner";
 
 export default function Home() {
   return (
@@ -7,10 +7,7 @@ export default function Home() {
       <Helmet>
         <title>Home Page</title>
       </Helmet>
-      <h1>This is Home Page</h1>
-      <div>
-        <ModeToggle />
-      </div>
+      <Banner />
     </div>
   );
 }
