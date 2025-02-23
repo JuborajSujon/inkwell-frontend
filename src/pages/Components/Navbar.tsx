@@ -21,8 +21,8 @@ export default function Navbar() {
             isPending
               ? "pending"
               : isActive
-              ? "px-4 -mb-1 border-b-2 border-transparent text-nowrap"
-              : "text-amber-600 border-amber-600"
+              ? "text-amber-600 border-amber-600 px-4 -mb-1 border-b-2 border-transparent"
+              : "px-4 -mb-1 border-b-2 border-transparent"
           }>
           Home
         </NavLink>
@@ -34,8 +34,8 @@ export default function Navbar() {
             isPending
               ? "pending"
               : isActive
-              ? "px-4 -mb-1 border-b-2 border-transparent text-nowrap"
-              : "text-amber-600 border-amber-600"
+              ? "text-amber-600 border-amber-600 px-4 -mb-1 border-b-2 border-transparent"
+              : "px-4 -mb-1 border-b-2 border-transparent"
           }>
           All Products
         </NavLink>
@@ -47,8 +47,8 @@ export default function Navbar() {
             isPending
               ? "pending"
               : isActive
-              ? "px-4 -mb-1 border-b-2 border-transparent text-nowrap"
-              : "text-amber-600 border-amber-600"
+              ? "text-amber-600 border-amber-600 px-4 -mb-1 border-b-2 border-transparent"
+              : "px-4 -mb-1 border-b-2 border-transparent"
           }>
           About
         </NavLink>
