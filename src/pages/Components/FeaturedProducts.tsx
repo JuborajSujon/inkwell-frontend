@@ -55,10 +55,10 @@ const products = [
 
 export default function FeaturedProducts() {
   return (
-    <section className="max-w-6xl mx-auto mt-16 px-6 md:px-12 space-y-8">
+    <section className="space-y-14 py-20 max-w-7xl mx-auto px-6">
       <div className="text-center">
         <h2 className="text-4xl font-bold">Featured Products</h2>
-        <p className="text-muted-foreground mt-2">
+        <p className="mt-2">
           Discover our hand-picked selection of top stationery items.
         </p>
       </div>

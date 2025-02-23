@@ -12,9 +12,7 @@ export default function ProductCard({ product }: any) {
         />
         <CardContent className="text-center space-y-3 mt-4 flex flex-col flex-grow">
           <h3 className="text-xl font-semibold">{product.name}</h3>
-          <p className="text-muted-foreground flex-grow">
-            {product.description}
-          </p>
+          <p className=" flex-grow">{product.description}</p>
           <p className="text-sm text-gray-500">{product.category}</p>
           <span className="text-lg font-bold">{product.price}</span>
         </CardContent>
