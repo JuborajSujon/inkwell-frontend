@@ -6,12 +6,12 @@ import Spinner from "@/components/spinner";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import { useLogin } from "@/hooks/use-login";
-import { onOpen } from "@/redux/features/login/loginSlice";
 import { useRegister } from "@/hooks/use-register";
+import { UserProfile } from "@/components/modal/user-profile";
 
 export default function Navbar() {
   const isLoading = false;
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   const scrolled = useScrollTop();
   const { onOpen: openLogin } = useLogin();
   const { onOpen: openRegister } = useRegister();
@@ -108,15 +108,7 @@ export default function Navbar() {
           )}
           {isAuthenticated && !isLoading && (
             <>
-              <Button variant={"ghost"} size={"sm"}>
-                <Link to="/dashboard">Dashboard</Link>
-              </Button>
-
-              <Button size={"sm"} onClick={() => {}}>
-                Logout
-              </Button>
-
-              <h1>User Profile</h1>
+              <UserProfile />
             </>
           )}
           <ModeToggle />
