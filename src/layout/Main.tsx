@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 export default function Main() {
   return (
-    <div className="h-full dark:bg-[#1F1F1F] bg-background font-poppins">
+    <div className="h-full  bg-background font-poppins">
       <Navbar />
       <div className="pt-24 px-6">
         <Outlet />
