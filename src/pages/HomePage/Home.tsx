@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Banner from "../Components/Banner";
+import FeaturedProducts from "../Components/FeaturedProducts";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
         <title>Home Page</title>
       </Helmet>
       <Banner />
+      <FeaturedProducts />
     </div>
   );
 }
