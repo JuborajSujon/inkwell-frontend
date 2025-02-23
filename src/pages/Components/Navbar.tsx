@@ -88,7 +88,7 @@ export default function Navbar() {
           <ul className="items-center hidden space-x-3 md:flex">{navList}</ul>
         </div>
         {/* Actions */}
-        <div className="justify-end flex items-center gap-x-2 bg-yellow-400">
+        <div className="justify-end flex items-center gap-x-2 ">
           {isLoading && <Spinner />}
           {!isAuthenticated && !isLoading && (
             <>
