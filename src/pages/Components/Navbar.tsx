@@ -3,20 +3,20 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
-import { useLogin } from "@/hooks/use-login";
-import { useRegister } from "@/hooks/use-register";
 import { UserProfile } from "@/components/modal/user-profile";
 
 import { UseNavbarMenu } from "@/components/modal/use-navbar-menu";
+import { useAppSelector } from "@/redux/hook";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useState } from "react";
 
 export default function Navbar() {
-  const isLoading = false;
-  const isAuthenticated = false;
+  const user = useAppSelector(useCurrentUser);
+  const [isLoading, setIsLoading] = useState(false);
+
   const scrolled = useScrollTop();
-  const { onOpen: openLogin } = useLogin();
-  const { onOpen: openRegister } = useRegister();
 
   const navList = (
     <>
@@ -84,18 +84,20 @@ export default function Navbar() {
         {/* Actions */}
         <div className="justify-end flex items-center gap-x-2 ">
           {isLoading && <Spinner />}
-          {!isAuthenticated && !isLoading && (
+          {!user && !isLoading && (
             <>
-              <Button onClick={openLogin} variant={"ghost"} size={"sm"}>
-                Log in
-              </Button>
+              <Link to="/login">
+                <Button variant={"ghost"} size={"sm"}>
+                  Log in
+                </Button>
+              </Link>
 
-              <Button onClick={openRegister} size={"sm"}>
-                Register
-              </Button>
+              <Link to="/register">
+                <Button size={"sm"}>Register</Button>
+              </Link>
             </>
           )}
-          {isAuthenticated && !isLoading && (
+          {user && !isLoading && (
             <>
               <UserProfile />
             </>
