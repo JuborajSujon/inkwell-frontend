@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import { Home, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/redux/hook";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 
 interface SidebarProps {
   handleToggle: () => void;
@@ -10,11 +12,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
-  const userData = {
-    name: "Mr. One",
-    email: "support@yinkwellstore.com",
-    role: "admin",
-  };
+  const userData = useAppSelector(useCurrentUser);
 
   // Logout Handler
   const handleLogout = async () => {};
