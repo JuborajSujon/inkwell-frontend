@@ -6,6 +6,8 @@ import Home from "@/pages/HomePage/Home";
 import ProductDetails from "@/pages/ProductDetails/ProductDetails";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
+import Dashboard from "@/layout/Dashboard";
+import AdminRoute from "./AdminRoute";
 
 const routes = createBrowserRouter([
   {
@@ -33,11 +35,79 @@ const routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/checkout/:id",
+        element: (
+          <PrivateRoute>
+            <div>Checkout</div>
+          </PrivateRoute>
+        ),
+      },
+
+      {
+        path: "/payment/:id",
+        element: (
+          <PrivateRoute>
+            <div>Payment</div>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
     path: "/Dashboard",
-    element: <div>Dashboard</div>,
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <div>Dashboard Home</div>,
+      },
+      {
+        path: "/Dashboard/orders",
+        element: (
+          <AdminRoute>
+            <div>Orders</div>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/Dashboard/products",
+        element: (
+          <AdminRoute>
+            <div>Products</div>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/Dashboard/users",
+        element: (
+          <AdminRoute>
+            <div>Users</div>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/Dashboard/reviews",
+        element: (
+          <AdminRoute>
+            <div>Reviews</div>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/Dashboard/add-product",
+        element: (
+          <AdminRoute>
+            <div>Add Product</div>
+          </AdminRoute>
+        ),
+      },
+    ],
   },
 ]);
 
