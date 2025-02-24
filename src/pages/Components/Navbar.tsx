@@ -3,17 +3,17 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import { useLogin } from "@/hooks/use-login";
 import { useRegister } from "@/hooks/use-register";
 import { UserProfile } from "@/components/modal/user-profile";
-import { MenuIcon } from "lucide-react";
+
 import { UseNavbarMenu } from "@/components/modal/use-navbar-menu";
 
 export default function Navbar() {
   const isLoading = false;
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   const scrolled = useScrollTop();
   const { onOpen: openLogin } = useLogin();
   const { onOpen: openRegister } = useRegister();
