@@ -5,8 +5,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useNavigate } from "react-router-dom";
 
 export function UserProfileDashboard() {
+  const navigate = useNavigate();
   return (
     <div>
       <DropdownMenu>
@@ -17,7 +19,12 @@ export function UserProfileDashboard() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => {}}>Home</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/");
+            }}>
+            Home
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => {}}>My Cart</DropdownMenuItem>
           <DropdownMenuItem onClick={() => {}}>User Profile</DropdownMenuItem>
           <DropdownMenuItem onClick={() => {}}>
