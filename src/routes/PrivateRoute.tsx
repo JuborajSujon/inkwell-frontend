@@ -1,21 +1,13 @@
-import Spinner from "@/components/spinner";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { useAppSelector } from "@/redux/hook";
 import { Navigate, useLocation } from "react-router-dom";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
-  const isLoading = false;
-  const isAuthenticated = true;
+  const token = useAppSelector(useCurrentToken);
 
   const location = useLocation();
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <Spinner size={"lg"} />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
+  if (!token) {
     return <Navigate to={"/login"} state={{ from: location }}></Navigate>;
   }
 

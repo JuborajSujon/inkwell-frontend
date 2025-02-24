@@ -1,22 +1,25 @@
-import Spinner from "@/components/spinner";
+import useLogout from "@/hooks/use-logout";
+import { useCurrentToken } from "@/redux/features/auth/authSlice";
+import { IPrivateRoute, IUser } from "@/types";
+import { verifyToken } from "@/utils/verifyToken";
+import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
-const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const isLoading = false;
-  const isAuthenticated = true;
-  const isAdminLoading = false;
-  const isAdmin = true;
+const AdminRoute = ({ children }: IPrivateRoute) => {
+  const token = useSelector(useCurrentToken);
+  const logout = useLogout();
 
   const location = useLocation();
 
-  if (isLoading || isAdminLoading)
-    return (
-      <div className="flex items-center justify-center h-full">
-        <Spinner size={"lg"} />
-      </div>
-    );
+  if (!token) {
+    return <Navigate to={"/login"} state={{ from: location }}></Navigate>;
+  }
 
-  if (!isAuthenticated || !isAdmin) {
+  const user: IUser | null = verifyToken(token) as IUser;
+
+  if (!user) {
+    logout();
+
     return <Navigate to={"/login"} state={{ from: location }}></Navigate>;
   }
 
