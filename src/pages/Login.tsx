@@ -26,6 +26,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import { EyeClosed, EyeIcon } from "lucide-react";
+import { useState } from "react";
 
 interface LoginDialogProps {
   email: string;
@@ -36,6 +38,8 @@ export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
+
+  const [showPass, setShowPass] = useState(false);
 
   const form = useForm<LoginDialogProps>({
     mode: "onBlur",
@@ -60,7 +64,7 @@ export const Login = () => {
 
   return (
     <div className="flex h-full flex-col items-center justify-center  px-5 py-8 ">
-      <Card className="max-w-sm md:max-w-md lg:max-w-xl xl:max-w-2xl">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>
             <h1 className="text-lg font-bold uppercase  lg:text-4xl">Login</h1>
@@ -112,12 +116,20 @@ export const Login = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter your password"
-                        {...field}
-                        type="password"
-                        className="dark:bg-slate-200 placeholder:dark:text-slate-400 dark:text-slate-900 font-medium"
-                      />
+                      <div className="relative">
+                        <Input
+                          placeholder="Enter your password"
+                          {...field}
+                          type={showPass ? "text" : "password"}
+                          className="dark:bg-slate-200 placeholder:dark:text-slate-400 dark:text-slate-900 font-medium"
+                        />
+
+                        <div
+                          onClick={() => setShowPass(!showPass)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-black">
+                          {showPass ? <EyeIcon /> : <EyeClosed />}
+                        </div>
+                      </div>
                     </FormControl>
                     <FormMessage>
                       {form.formState.errors.password?.message}
