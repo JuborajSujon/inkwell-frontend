@@ -7,7 +7,7 @@ export default function Main() {
     <div className="h-full  bg-background font-poppins">
       <Navbar />
 
-      <div className="pt-24 px-6">
+      <div className="pt-[70px] px-6">
         <Outlet />
       </div>
       <Footer />
