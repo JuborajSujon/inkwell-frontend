@@ -8,6 +8,8 @@ import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "@/layout/Dashboard";
 import AdminRoute from "./AdminRoute";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
 
 const routes = createBrowserRouter([
   {
@@ -29,11 +31,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "/product/:id",
-        element: (
-          <PrivateRoute>
-            <ProductDetails />
-          </PrivateRoute>
-        ),
+        element: <ProductDetails />,
       },
       {
         path: "/checkout/:id",
@@ -57,9 +55,9 @@ const routes = createBrowserRouter([
   {
     path: "/Dashboard",
     element: (
-      <PrivateRoute>
+      <AdminRoute>
         <Dashboard />
-      </PrivateRoute>
+      </AdminRoute>
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -69,45 +67,33 @@ const routes = createBrowserRouter([
       },
       {
         path: "/Dashboard/orders",
-        element: (
-          <AdminRoute>
-            <div>Orders</div>
-          </AdminRoute>
-        ),
+        element: <div>Orders</div>,
       },
       {
         path: "/Dashboard/products",
-        element: (
-          <AdminRoute>
-            <div>Products</div>
-          </AdminRoute>
-        ),
+        element: <div>Products</div>,
       },
       {
         path: "/Dashboard/users",
-        element: (
-          <AdminRoute>
-            <div>Users</div>
-          </AdminRoute>
-        ),
+        element: <div>Users</div>,
       },
       {
         path: "/Dashboard/reviews",
-        element: (
-          <AdminRoute>
-            <div>Reviews</div>
-          </AdminRoute>
-        ),
+        element: <div>Reviews</div>,
       },
       {
         path: "/Dashboard/add-product",
-        element: (
-          <AdminRoute>
-            <div>Add Product</div>
-          </AdminRoute>
-        ),
+        element: <div>Add Product</div>,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 
