@@ -11,10 +11,16 @@ import { UseNavbarMenu } from "@/components/modal/use-navbar-menu";
 import { useAppSelector } from "@/redux/hook";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useState } from "react";
+import { useGetSingleUserQuery } from "@/redux/features/auth/authApi";
 
 export default function Navbar() {
   const user = useAppSelector(useCurrentUser);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data: userData } = useGetSingleUserQuery(user?.email, {
+    skip: !user?.email, // Skip query if user is not logged in
+  });
 
   const scrolled = useScrollTop();
 
@@ -69,7 +75,7 @@ export default function Navbar() {
         "z-50 fixed top-0 max-w-[1540px] w-full bg-background dark:bg-[#1F1F1F]",
         scrolled && "border-b shadow-sm"
       )}>
-      <div className="flex items-center justify-between p-6">
+      <div className="flex items-center justify-between p-3">
         {/* Logo */}
         <div className="">
           <UseNavbarMenu />
@@ -99,7 +105,7 @@ export default function Navbar() {
           )}
           {user && !isLoading && (
             <>
-              <UserProfile />
+              <UserProfile user={userData} />
             </>
           )}
           <ModeToggle />
