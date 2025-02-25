@@ -1,10 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { Home, User, X } from "lucide-react";
+import { ChefHat, Home, ShoppingCart, User, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hook";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import {
+  Command,
+  CommandGroup,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
 
 interface SidebarProps {
   handleToggle: () => void;
@@ -14,8 +20,74 @@ interface SidebarProps {
 const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
   const userData = useAppSelector(useCurrentUser);
 
-  // Logout Handler
-  const handleLogout = async () => {};
+  // Admin menu list
+  const adminMenuList = [
+    {
+      group: "General",
+      items: [
+        {
+          link: "/dashboard",
+          icon: <Home className="w-5 h-5" />,
+          text: "Dashboard",
+        },
+      ],
+    },
+    {
+      group: "User Management",
+      items: [
+        {
+          link: "/dashboard/users",
+          icon: <User className="w-5 h-5" />,
+          text: "Users Profile",
+        },
+      ],
+    },
+    {
+      group: "Orders Management",
+      items: [
+        {
+          link: "/dashboard/orders",
+          icon: <ChefHat className="w-5 h-5" />,
+          text: "Orders Profile",
+        },
+      ],
+    },
+  ];
+
+  // User menu list
+  const userMenuList = [
+    {
+      group: "General",
+      items: [
+        {
+          link: "/dashboard",
+          icon: <Home className="w-5 h-5" />,
+          text: "Dashboard",
+        },
+      ],
+    },
+    {
+      group: "Profile Management",
+      items: [
+        {
+          link: "/dashboard/users",
+          icon: <User className="w-5 h-5" />,
+          text: "Update Profile",
+        },
+      ],
+    },
+    {
+      group: "Orders Management",
+      items: [
+        {
+          link: "/dashboard/orders",
+          icon: <ShoppingCart className="w-5 h-5" />,
+          text: "My Cart",
+        },
+      ],
+    },
+  ];
+
   return (
     <>
       {/* Sidebar */}
@@ -49,45 +121,68 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
             <nav className="mt-4 space-y-1 ">
               {userData?.role === "admin" ? (
                 <>
-                  <NavLink
-                    to="/dashboard"
-                    end
-                    className={({ isActive }) =>
-                      `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
-                        isActive
-                          ? "bg-muted text-foreground"
-                          : "text-muted-foreground"
-                      }`
-                    }>
-                    <Home className="w-5 h-5" />
-                    <span className="ml-3 text-sm">Dashboard Home</span>
-                  </NavLink>
-                  <NavLink
-                    to="admin-profile"
-                    className={({ isActive }) =>
-                      `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
-                        isActive
-                          ? "bg-muted text-foreground"
-                          : "text-muted-foreground"
-                      }`
-                    }>
-                    <User className="w-5 h-5" />
-                    <span className="ml-3 text-sm">Admin Profile</span>
-                  </NavLink>
+                  <Command>
+                    <CommandList>
+                      {adminMenuList?.map((menu: any, key: number) => (
+                        <CommandGroup key={key} heading={menu.group}>
+                          {menu?.items?.map(
+                            (option: any, keyOption: number) => (
+                              <NavLink
+                                key={keyOption}
+                                to={option.link}
+                                end
+                                className={({ isActive }) =>
+                                  `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
+                                    isActive
+                                      ? "bg-muted text-foreground"
+                                      : "text-muted-foreground"
+                                  }`
+                                }>
+                                {option.icon}
+                                <span className="ml-3 text-sm">
+                                  {option.text}
+                                </span>
+                              </NavLink>
+                            )
+                          )}
+                          <CommandSeparator />
+                        </CommandGroup>
+                      ))}
+                    </CommandList>
+                  </Command>
                 </>
               ) : (
-                <NavLink
-                  to="user-profile"
-                  className={({ isActive }) =>
-                    `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
-                      isActive
-                        ? "bg-muted text-foreground"
-                        : "text-muted-foreground"
-                    }`
-                  }>
-                  <User className="w-5 h-5" />
-                  <span className="ml-3 text-sm">My Profile</span>
-                </NavLink>
+                <>
+                  <Command>
+                    <CommandList>
+                      {userMenuList?.map((menu: any, key: number) => (
+                        <CommandGroup key={key} heading={menu.group}>
+                          {menu?.items?.map(
+                            (option: any, keyOption: number) => (
+                              <NavLink
+                                key={keyOption}
+                                to={option.link}
+                                end
+                                className={({ isActive }) =>
+                                  `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
+                                    isActive
+                                      ? "bg-muted text-foreground"
+                                      : "text-muted-foreground"
+                                  }`
+                                }>
+                                {option.icon}
+                                <span className="ml-3 text-sm">
+                                  {option.text}
+                                </span>
+                              </NavLink>
+                            )
+                          )}
+                          <CommandSeparator />
+                        </CommandGroup>
+                      ))}
+                    </CommandList>
+                  </Command>
+                </>
               )}
             </nav>
           </div>
