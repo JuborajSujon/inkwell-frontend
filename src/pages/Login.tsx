@@ -50,16 +50,21 @@ export const Login = () => {
   });
 
   const onSubmit: SubmitHandler<LoginDialogProps> = async (data) => {
-    const res = await login(data).unwrap();
+    try {
+      const res = await login(data).unwrap();
 
-    const user = verifyToken(res.data.accessToken);
+      const user = verifyToken(res.data.accessToken);
 
-    dispatch(setUser({ user, token: res.data.accessToken }));
+      dispatch(setUser({ user, token: res.data.accessToken }));
 
-    toast.success("Login successful", { duration: 1500 });
+      toast.success("Login successful", { duration: 1500 });
 
-    form.reset();
-    navigate("/");
+      form.reset();
+      navigate("/");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Login failed. Please try again.");
+    }
   };
 
   return (
