@@ -3,6 +3,9 @@ import logo from "@/assets/logo.png";
 import { MenuIcon } from "lucide-react";
 import { UserProfileDashboard } from "@/components/modal/user-profile-dashboard";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useAppSelector } from "@/redux/hook";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import { useGetSingleUserQuery } from "@/redux/features/auth/authApi";
 
 interface DashboardNavProps {
   handleToggle: () => void;
@@ -10,6 +13,12 @@ interface DashboardNavProps {
 }
 
 const DashboardNav = ({ handleToggle }: DashboardNavProps) => {
+  const user = useAppSelector(useCurrentUser);
+
+  const { data: userData } = useGetSingleUserQuery(user?.email, {
+    skip: !user?.email, // Skip query if user is not logged in
+  });
+
   return (
     <div className="sticky top-0 left-0 right-0 z-10 w-full bg-slate-50 dark:bg-black  border-b border-gray-200">
       {/* Small Screen Navbar */}
@@ -35,7 +44,7 @@ const DashboardNav = ({ handleToggle }: DashboardNavProps) => {
         {/* Navbar */}
         {/* Right Side */}
         <div className="flex items-center space-x-3">
-          <UserProfileDashboard />
+          <UserProfileDashboard user={userData} />
           <ModeToggle />
         </div>
       </div>
