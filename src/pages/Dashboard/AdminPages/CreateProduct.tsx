@@ -96,7 +96,6 @@ export const CreateProduct = () => {
     // Create a preview of the selected image
     // Upload the image to ImgBB
     try {
-      setIsLoading(true);
       const image_data = await imageUpload(file);
 
       if (image_data.success) {
@@ -110,8 +109,6 @@ export const CreateProduct = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Image upload error, please try again.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
