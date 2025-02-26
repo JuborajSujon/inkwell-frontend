@@ -1,59 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import { useGetAllProductsQuery } from "@/redux/features/product/productApi";
+import Spinner from "@/components/spinner";
 
-const products = [
-  {
-    id: 1,
-    name: "Elegant Leather Notebook",
-    description: "Premium quality leather-bound notebook for professionals.",
-    category: "Stationery",
-    image: "/src/assets/product1.jpg",
-    price: "$25.99",
-  },
-  {
-    id: 2,
-    name: "Classic Fountain Pen",
-    description: "Smooth ink flow with a timeless design.",
-    category: "Writing Essentials",
-    image: "/src/assets/product2.jpg",
-    price: "$19.99",
-  },
-  {
-    id: 3,
-    name: "Artistic Sketchbook",
-    description: "High-quality paper for artists and illustrators.",
-    category: "Art Supplies",
-    image: "/src/assets/product3.jpg",
-    price: "$15.99",
-  },
-  {
-    id: 4,
-    name: "Minimalist Planner",
-    description: "Organize your tasks efficiently with this sleek planner.",
-    category: "Planners",
-    image: "/src/assets/product4.jpg",
-    price: "$12.99",
-  },
-  {
-    id: 5,
-    name: "Premium Calligraphy Set",
-    description: "Perfect for beginners and professionals alike.",
-    category: "Writing Essentials",
-    image: "/src/assets/product5.jpg",
-    price: "$29.99",
-  },
-  {
-    id: 6,
-    name: "Designer Sticky Notes",
-    description: "Bright and stylish sticky notes for daily use.",
-    category: "Stationery",
-    image: "/src/assets/product6.jpg",
-    price: "$8.99",
-  },
-];
-
+interface IProduct {
+  _id: string;
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+  photo: string;
+  description: string;
+  quantity: number;
+  inStock: boolean;
+}
 export default function FeaturedProducts() {
+  // Fetch products
+  const { data, isLoading } = useGetAllProductsQuery(undefined);
+
   return (
     <section className="space-y-14 py-20 max-w-7xl mx-auto px-6">
       <div className="text-center">
@@ -63,10 +28,17 @@ export default function FeaturedProducts() {
         </p>
       </div>
 
+      {isLoading && (
+        <div className="flex justify-center items-center h-96">
+          <Spinner size="icon" />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {data?.data &&
+          data?.data?.map((product: IProduct) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
       </div>
 
       <div className="text-center mt-8">

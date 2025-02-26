@@ -1,12 +1,28 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 
-export default function ProductCard({ product }: any) {
+interface IProduct {
+  _id: string;
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+  photo: string;
+  description: string;
+  quantity: number;
+  inStock: boolean;
+}
+
+interface ProductCardProps {
+  product: IProduct;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Link to={`/product/${product.id}`} className="block h-full">
+    <Link to={`/product/${product?._id}`} className="block h-full">
       <Card className="p-4 shadow-md h-full flex flex-col justify-between">
         <img
-          src={product.image}
+          src={product?.photo}
           alt={product.name}
           className="w-full h-48 object-cover rounded-md"
         />
