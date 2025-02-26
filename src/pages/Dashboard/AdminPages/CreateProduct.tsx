@@ -53,7 +53,6 @@ type ProductFormData = z.infer<typeof productSchema>;
 
 export const CreateProduct = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
