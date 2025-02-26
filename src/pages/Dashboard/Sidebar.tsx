@@ -1,7 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
-import { ChefHat, Home, ShoppingCart, User, X } from "lucide-react";
+import {
+  ChefHat,
+  Edit,
+  Home,
+  List,
+  ShoppingCart,
+  User,
+  UserCog,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hook";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
@@ -36,9 +45,29 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
       group: "User Management",
       items: [
         {
-          link: "/dashboard/users",
+          link: "/dashboard/user/user-list",
           icon: <User className="w-5 h-5" />,
           text: "Users Profile",
+        },
+        {
+          link: "/dashboard/user/my-profile",
+          icon: <UserCog className="w-5 h-5" />,
+          text: "My Profile",
+        },
+      ],
+    },
+    {
+      group: "Product Management",
+      items: [
+        {
+          link: "/dashboard/product/create-product",
+          icon: <Edit className="w-5 h-5" />,
+          text: "Create Product",
+        },
+        {
+          link: "/dashboard/product/product-list",
+          icon: <List className="w-5 h-5" />,
+          text: "Product List",
         },
       ],
     },
@@ -122,29 +151,27 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
               {userData?.role === "admin" ? (
                 <>
                   <Command>
-                    <CommandList>
-                      {adminMenuList?.map((menu: any, key: number) => (
+                    <CommandList className="h-screen">
+                      {adminMenuList?.map((menu, key: number) => (
                         <CommandGroup key={key} heading={menu.group}>
-                          {menu?.items?.map(
-                            (option: any, keyOption: number) => (
-                              <NavLink
-                                key={keyOption}
-                                to={option.link}
-                                end
-                                className={({ isActive }) =>
-                                  `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
-                                    isActive
-                                      ? "bg-muted text-foreground"
-                                      : "text-muted-foreground"
-                                  }`
-                                }>
-                                {option.icon}
-                                <span className="ml-3 text-sm">
-                                  {option.text}
-                                </span>
-                              </NavLink>
-                            )
-                          )}
+                          {menu?.items?.map((option, keyOption: number) => (
+                            <NavLink
+                              key={keyOption}
+                              to={option.link}
+                              end
+                              className={({ isActive }) =>
+                                `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
+                                  isActive
+                                    ? "bg-muted text-foreground"
+                                    : "text-muted-foreground"
+                                }`
+                              }>
+                              {option.icon}
+                              <span className="ml-3 text-sm">
+                                {option.text}
+                              </span>
+                            </NavLink>
+                          ))}
                           <CommandSeparator />
                         </CommandGroup>
                       ))}
@@ -154,29 +181,27 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
               ) : (
                 <>
                   <Command>
-                    <CommandList>
-                      {userMenuList?.map((menu: any, key: number) => (
+                    <CommandList className="h-screen">
+                      {userMenuList?.map((menu, key: number) => (
                         <CommandGroup key={key} heading={menu.group}>
-                          {menu?.items?.map(
-                            (option: any, keyOption: number) => (
-                              <NavLink
-                                key={keyOption}
-                                to={option.link}
-                                end
-                                className={({ isActive }) =>
-                                  `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
-                                    isActive
-                                      ? "bg-muted text-foreground"
-                                      : "text-muted-foreground"
-                                  }`
-                                }>
-                                {option.icon}
-                                <span className="ml-3 text-sm">
-                                  {option.text}
-                                </span>
-                              </NavLink>
-                            )
-                          )}
+                          {menu?.items?.map((option, keyOption: number) => (
+                            <NavLink
+                              key={keyOption}
+                              to={option.link}
+                              end
+                              className={({ isActive }) =>
+                                `flex items-center px-4 py-1.5 rounded-sm transition-colors duration-200 hover:bg-muted ${
+                                  isActive
+                                    ? "bg-muted text-foreground"
+                                    : "text-muted-foreground"
+                                }`
+                              }>
+                              {option.icon}
+                              <span className="ml-3 text-sm">
+                                {option.text}
+                              </span>
+                            </NavLink>
+                          ))}
                           <CommandSeparator />
                         </CommandGroup>
                       ))}

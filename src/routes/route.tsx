@@ -10,6 +10,10 @@ import Dashboard from "@/layout/Dashboard";
 import AdminRoute from "./AdminRoute";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import CreateProduct from "@/pages/Dashboard/AdminPages/CreateProduct";
+import ProductList from "@/pages/Dashboard/AdminPages/ProductList";
+import UserList from "@/pages/Dashboard/AdminPages/UserList";
+import UserProfilePage from "@/pages/Dashboard/UserProfile";
 
 const routes = createBrowserRouter([
   {
@@ -53,11 +57,11 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/Dashboard",
+    path: "/dashboard",
     element: (
-      <AdminRoute>
+      <PrivateRoute>
         <Dashboard />
-      </AdminRoute>
+      </PrivateRoute>
     ),
     errorElement: <ErrorPage />,
     children: [
@@ -66,24 +70,36 @@ const routes = createBrowserRouter([
         element: <div>Dashboard Home</div>,
       },
       {
-        path: "/Dashboard/orders",
-        element: <div>Orders</div>,
+        path: "/dashboard/product/create-product",
+        element: (
+          <AdminRoute role="admin">
+            <CreateProduct />
+          </AdminRoute>
+        ),
       },
       {
-        path: "/Dashboard/products",
-        element: <div>Products</div>,
+        path: "/dashboard/product/product-list",
+        element: (
+          <AdminRoute role="admin">
+            <ProductList />
+          </AdminRoute>
+        ),
       },
       {
-        path: "/Dashboard/users",
-        element: <div>Users</div>,
+        path: "/dashboard/user/user-list",
+        element: (
+          <AdminRoute role="admin">
+            <UserList />
+          </AdminRoute>
+        ),
       },
       {
-        path: "/Dashboard/reviews",
-        element: <div>Reviews</div>,
-      },
-      {
-        path: "/Dashboard/add-product",
-        element: <div>Add Product</div>,
+        path: "/dashboard/user/my-profile",
+        element: (
+          <AdminRoute role="admin">
+            <UserProfilePage />
+          </AdminRoute>
+        ),
       },
     ],
   },

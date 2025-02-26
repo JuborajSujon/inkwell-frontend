@@ -3,6 +3,7 @@ import loginReducer from "./features/login/loginSlice";
 import registerReducer from "./features/register/registerSlice";
 import authReducer from "./features/auth/authSlice";
 import productReducer from "./features/product/productSlice";
+import userReducer from "./features/user/userSlice";
 import { baseApi } from "./api/baseApi";
 import {
   persistReducer,
@@ -28,6 +29,7 @@ export const store = configureStore({
     login: loginReducer,
     register: registerReducer,
     product: productReducer,
+    user: userReducer,
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
   },
