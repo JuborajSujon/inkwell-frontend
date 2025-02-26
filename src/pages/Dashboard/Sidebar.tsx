@@ -5,6 +5,7 @@ import {
   ChefHat,
   Edit,
   Home,
+  Key,
   List,
   ShoppingCart,
   User,
@@ -54,6 +55,11 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
           icon: <UserCog className="w-5 h-5" />,
           text: "My Profile",
         },
+        {
+          link: "/dashboard/user/change-password",
+          icon: <Key className="w-5 h-5" />,
+          text: "Change Password",
+        },
       ],
     },
     {
@@ -99,9 +105,14 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
       group: "Profile Management",
       items: [
         {
-          link: "/dashboard/users",
-          icon: <User className="w-5 h-5" />,
-          text: "Update Profile",
+          link: "/dashboard/user/my-profile",
+          icon: <UserCog className="w-5 h-5" />,
+          text: "My Profile",
+        },
+        {
+          link: "/dashboard/user/change-password",
+          icon: <Key className="w-5 h-5" />,
+          text: "Change Password",
         },
       ],
     },

@@ -14,6 +14,7 @@ import CreateProduct from "@/pages/Dashboard/AdminPages/CreateProduct";
 import ProductList from "@/pages/Dashboard/AdminPages/ProductList";
 import UserList from "@/pages/Dashboard/AdminPages/UserList";
 import UserProfilePage from "@/pages/Dashboard/UserProfile";
+import ChangePassword from "@/pages/Dashboard/ChangePassword";
 
 const routes = createBrowserRouter([
   {
@@ -95,11 +96,11 @@ const routes = createBrowserRouter([
       },
       {
         path: "/dashboard/user/my-profile",
-        element: (
-          <AdminRoute role="admin">
-            <UserProfilePage />
-          </AdminRoute>
-        ),
+        element: <UserProfilePage />,
+      },
+      {
+        path: "/dashboard/user/change-password",
+        element: <ChangePassword />,
       },
     ],
   },
