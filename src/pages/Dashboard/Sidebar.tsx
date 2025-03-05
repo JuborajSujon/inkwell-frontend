@@ -117,10 +117,10 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
       ],
     },
     {
-      group: "Orders Management",
+      group: "Cart Management",
       items: [
         {
-          link: "/dashboard/orders",
+          link: "/dashboard/carts/my-cart-list",
           icon: <ShoppingCart className="w-5 h-5" />,
           text: "My Cart",
         },

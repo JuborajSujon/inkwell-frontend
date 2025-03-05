@@ -15,6 +15,7 @@ import ProductList from "@/pages/Dashboard/AdminPages/ProductList";
 import UserList from "@/pages/Dashboard/AdminPages/UserList";
 import UserProfilePage from "@/pages/Dashboard/UserProfile";
 import ChangePassword from "@/pages/Dashboard/ChangePassword";
+import CartPage from "@/pages/Dashboard/CartPage";
 
 const routes = createBrowserRouter([
   {
@@ -101,6 +102,11 @@ const routes = createBrowserRouter([
       {
         path: "/dashboard/user/change-password",
         element: <ChangePassword />,
+      },
+
+      {
+        path: "/dashboard/carts/my-cart-list",
+        element: <CartPage />,
       },
     ],
   },
