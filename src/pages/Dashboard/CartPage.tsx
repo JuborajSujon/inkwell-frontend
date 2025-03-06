@@ -16,7 +16,6 @@ import {
 } from "@/redux/features/cart/cartApi";
 import { ICartItem, IError } from "@/types";
 import { useState } from "react";
-import { set } from "react-hook-form";
 import { toast } from "sonner";
 
 const CartPage = () => {
