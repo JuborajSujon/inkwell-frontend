@@ -34,10 +34,23 @@ export function UserProfileDashboard({ user }: any) {
             }}>
             Home
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => {}}>My Cart</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => {}}>User Profile</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => {}}>
-            Profle Settings
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/all-products");
+            }}>
+            All Products
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/dashboard/carts/my-cart-list");
+            }}>
+            My Cart
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/dashboard/user/my-profile");
+            }}>
+            User Profile
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
