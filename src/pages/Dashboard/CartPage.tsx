@@ -7,13 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
+  useCreateAndUpdateCartMutation,
   useDeleteCartMutation,
   useDeleteSingleCartMutation,
   useGetAllCartQuery,
 } from "@/redux/features/cart/cartApi";
-import { ICartItem } from "@/types";
+import { ICartItem, IError } from "@/types";
 import { useState } from "react";
+import { set } from "react-hook-form";
 import { toast } from "sonner";
 
 const CartPage = () => {
@@ -21,6 +24,9 @@ const CartPage = () => {
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
+  );
+  const [quantityInput, setQuantityInput] = useState<{ [key: string]: string }>(
+    {}
   );
   const {
     data: carts,
@@ -30,6 +36,8 @@ const CartPage = () => {
 
   const [deleteSingleCart] = useDeleteSingleCartMutation();
   const [deleteCart] = useDeleteCartMutation();
+  const [createAndUpdateCart, { isLoading: isUpdating }] =
+    useCreateAndUpdateCartMutation();
 
   // Handle delete
   const handleDeleteCart = async (id: string) => {
@@ -76,12 +84,94 @@ const CartPage = () => {
     }
   };
 
-  const handleQuantityIncrease = (productId: string, quantity: number) => {
+  const handleQuantityIncrease = async (
+    productId: string,
+    quantity: number
+  ) => {
     // Update the quantity of the product in the cart
+    try {
+      const productData = { productId, quantity: quantity + 1 };
+
+      const res = await createAndUpdateCart(productData).unwrap();
+      if (res.success) {
+        toast.success("Cart updated successfully");
+        await refetchCarts();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Failed to update cart");
+    }
   };
 
-  const handleQuantityDecrease = (productId: string, quantity: number) => {
+  const handleQuantityDecrease = async (
+    productId: string,
+    quantity: number
+  ) => {
     // Update the quantity of the product in the cart
+
+    if (quantity <= 1) {
+      toast.error("Minimum quantity is 1");
+      return;
+    }
+
+    try {
+      const productData = { productId, quantity: quantity - 1 };
+
+      const res = await createAndUpdateCart(productData).unwrap();
+      if (res.success) {
+        toast.success("Cart updated successfully");
+        await refetchCarts();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Failed to update cart");
+    }
+  };
+
+  const handleQuantityChange = async (
+    productId: string,
+    newQuantity: number
+  ) => {
+    // Find the previous quantity
+    const previousQuantity = carts?.data?.items?.find(
+      (item: ICartItem) => item.productId._id === productId
+    )?.quantity;
+
+    // Optimistically update the input value to the new quantity
+    setQuantityInput((prev) => ({
+      ...prev,
+      [productId]: newQuantity.toString(),
+    }));
+
+    try {
+      // Try updating the cart with the new quantity
+      const res = await createAndUpdateCart({
+        productId,
+        quantity: newQuantity,
+      }).unwrap();
+      if (res.success) {
+        toast.success("Cart updated successfully!");
+        await refetchCarts();
+      } else {
+        // Handle unsuccessful update (if needed)
+        toast.error("Failed to update cart");
+      }
+    } catch (error: unknown) {
+      const err = error as IError;
+
+      // Reset the input field to the previous quantity in case of error
+      setQuantityInput((prev) => ({
+        ...prev,
+        [productId]: previousQuantity?.toString() ?? "1",
+      }));
+
+      // Show appropriate error message
+      if (err.status === 400) {
+        toast.error(err.data.message);
+      } else {
+        toast.error("Failed to update cart");
+      }
+    }
   };
 
   if (isLoading) {
@@ -107,34 +197,82 @@ const CartPage = () => {
           <div
             key={item._id}
             className="flex items-center justify-between gap-5 p-4 border rounded-lg">
-            <div className="flex flex-col sm:flex-row items-start justify-between w-full">
+            <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-2">
+              <img
+                src={item.productId.photo}
+                alt={item.productId.name}
+                className="w-12 h-12 object-cover rounded-lg"
+              />
               <h2 className="font-medium">{item.productId.name}</h2>
-              <p className="text-sm text-gray-500">Price: ${item.price}</p>
+              <p className="text-sm text-gray-500 flex-1  sm:text-right">
+                Price: ${item.price}
+              </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-2">
               <div className="flex items-center gap-2">
                 <Button
-                  size={"sm"}
+                  size="sm"
                   onClick={() =>
-                    handleQuantityIncrease(
-                      item.productId._id,
-                      item.quantity - 1
-                    )
-                  }>
+                    handleQuantityDecrease(item.productId._id, item.quantity)
+                  }
+                  disabled={isUpdating || item.quantity <= 1}>
                   -
                 </Button>
-                <span>{item.quantity}</span>
+                {/* Editable Quantity Input */}
+                <Input
+                  type="number"
+                  className="w-16 text-center border rounded-md px-2 py-1 dark:bg-gray-800 dark:text-gray-100"
+                  value={
+                    quantityInput[item.productId._id] ??
+                    item.quantity.toString()
+                  } // Allow empty string
+                  min={1}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "" || /^[0-9]+$/.test(value)) {
+                      // Allow empty or numbers only
+                      setQuantityInput((prev) => ({
+                        ...prev,
+                        [item.productId._id]: value,
+                      }));
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      const newQuantity = parseInt(
+                        quantityInput[item.productId._id] || "0",
+                        10
+                      );
+                      if (!isNaN(newQuantity) && newQuantity > 0) {
+                        handleQuantityChange(item.productId._id, newQuantity);
+                      } else {
+                        setQuantityInput((prev) => ({
+                          ...prev,
+                          [item.productId._id]: item.quantity.toString(),
+                        })); // Reset if invalid
+                      }
+                    }
+                  }}
+                  onBlur={() => {
+                    if (!quantityInput[item.productId._id]) {
+                      setQuantityInput((prev) => ({
+                        ...prev,
+                        [item.productId._id]: item.quantity.toString(),
+                      }));
+                    }
+                  }}
+                  disabled={isUpdating}
+                />
                 <Button
-                  size={"sm"}
+                  size="sm"
                   onClick={() =>
-                    handleQuantityDecrease(
-                      item.productId._id,
-                      item.quantity + 1
-                    )
-                  }>
+                    handleQuantityIncrease(item.productId._id, item.quantity)
+                  }
+                  disabled={isUpdating}>
                   +
                 </Button>
               </div>
+
               <div>
                 <Button
                   size={"sm"}
