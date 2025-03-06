@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useGetAllProductsQuery,
   useGetProductByIdQuery,
@@ -11,6 +11,8 @@ import {
 import Spinner from "@/components/spinner";
 import image2 from "@/assets/avater2.jpg";
 import image3 from "@/assets/avater3.jpg";
+import { useCreateAndUpdateCartMutation } from "@/redux/features/cart/cartApi";
+import { toast } from "sonner";
 
 const outdoor = {
   id: 1,
@@ -31,11 +33,13 @@ const outdoor = {
 };
 
 export default function ProductDetails() {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const [quantity, setQuantity] = useState(1);
   const { data, isLoading } = useGetProductByIdQuery(id);
   const product = data?.data;
   const category = product?.category;
+  const [quantity, setQuantity] = useState<string | number>(1);
+  const [isValid, setIsValid] = useState(true);
 
   // Fetch products
   const { data: similarProducts, isLoading: isSimilarLoading } =
@@ -49,6 +53,45 @@ export default function ProductDetails() {
         skip: !category,
       }
     );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    // Allow empty string while typing, enforce numeric input
+    if (value === "" || /^[0-9]+$/.test(value)) {
+      setQuantity(value === "" ? "" : Number(value)); // Keep empty string for better UX
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  };
+
+  const handleBlur = () => {
+    // Ensure a valid number, default to 1 if empty
+    if (quantity === "" || (typeof quantity === "number" && quantity < 1)) {
+      setQuantity(1);
+    }
+  };
+
+  // Create a new cart
+  const [createAndUpdateCart, { isLoading: isUpdating }] =
+    useCreateAndUpdateCartMutation();
+
+  // Add product to cart
+  const handleAddToCart = async (productId: string, quantity: number) => {
+    try {
+      const productData = { productId, quantity: quantity };
+
+      const res = await createAndUpdateCart(productData).unwrap();
+      if (res.success) {
+        toast.success("Cart added successfully");
+        navigate("/dashboard/carts/my-cart-list");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Failed to add to cart");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -83,13 +126,37 @@ export default function ProductDetails() {
               </span>
             </div>
             <div className="flex items-center gap-4 mt-4">
-              <Button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>
+              <Button
+                onClick={() => setQuantity((q) => Math.max(1, Number(q) - 1))}>
                 -
               </Button>
-              <span>{quantity}</span>
-              <Button onClick={() => setQuantity((q) => q + 1)}>+</Button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleInputChange}
+                onBlur={handleBlur}
+                min={1}
+                className={`w-28 text-center border ${
+                  !isValid ? "border-red-500" : "border-gray-300"
+                } rounded-md px-1 py-1 dark:bg-gray-800 dark:text-gray-100`}
+                placeholder="Qty"
+              />
+              {!isValid && (
+                <p className="text-red-500 text-xs">
+                  Please enter a valid number
+                </p>
+              )}
+
+              <Button onClick={() => setQuantity((q) => Number(q) + 1)}>
+                +
+              </Button>
             </div>
-            <Button className="mt-4 w-full">Add to Cart</Button>
+            <Button
+              disabled={product?.inStock === false || isUpdating}
+              onClick={() => handleAddToCart(product?._id, Number(quantity))}
+              className="mt-4 w-full">
+              Add to Cart
+            </Button>
           </div>
         </div>
 
@@ -100,6 +167,7 @@ export default function ProductDetails() {
             <div className="p-2 shadow-md flex flex-col">
               <span className="">Brand: {product?.brand} </span>
               <span className="">Modle: {product?.model} </span>
+              <span className="">Stock Quantity: {product?.quantity} </span>
             </div>
           </div>
         </div>
