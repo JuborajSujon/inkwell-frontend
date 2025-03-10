@@ -16,9 +16,11 @@ import {
 } from "@/redux/features/cart/cartApi";
 import { ICartItem, IError } from "@/types";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
@@ -291,7 +293,12 @@ const CartPage = () => {
               Grand Total: ${carts?.data?.totalPrice}
             </h2>
             <div className="flex justify-between items-center gap-4">
-              <Button size={"sm"} onClick={() => {}} className="mt-4">
+              <Button
+                size={"sm"}
+                onClick={() => {
+                  navigate("/dashboard/orders/checkout");
+                }}
+                className="mt-4">
                 Proceed to Checkout
               </Button>
               <Button
