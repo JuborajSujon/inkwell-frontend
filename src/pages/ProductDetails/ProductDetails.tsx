@@ -85,7 +85,8 @@ export default function ProductDetails() {
       const res = await createAndUpdateCart(productData).unwrap();
       if (res.success) {
         toast.success("Cart added successfully");
-        navigate("/dashboard/carts/my-cart-list");
+        navigate(-1);
+        // navigate("/dashboard/carts/my-cart-list");
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
