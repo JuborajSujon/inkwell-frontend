@@ -3,24 +3,28 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/spinner";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { UserProfile } from "@/components/modal/user-profile";
 
 import { UseNavbarMenu } from "@/components/modal/use-navbar-menu";
 import { useAppSelector } from "@/redux/hook";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
-import { useState } from "react";
 import { useGetSingleUserQuery } from "@/redux/features/auth/authApi";
+import { ShoppingCart } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useGetAllCartQuery } from "@/redux/features/cart/cartApi";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const user = useAppSelector(useCurrentUser);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const { data: userData } = useGetSingleUserQuery(user?.email, {
+  const { data: userData, isLoading } = useGetSingleUserQuery(user?.email, {
     skip: !user?.email, // Skip query if user is not logged in
   });
+
+  // Fetch cart data
+  const { data: carts } = useGetAllCartQuery(undefined);
 
   const scrolled = useScrollTop();
 
@@ -89,6 +93,17 @@ export default function Navbar() {
         </div>
         {/* Actions */}
         <div className="justify-end flex items-center gap-x-2 ">
+          <Button
+            onClick={() => {
+              navigate("/dashboard/carts/my-cart-list");
+            }}
+            variant="link"
+            className="relative">
+            <ShoppingCart className="h-6 w-6" />
+            <Badge className="absolute right-0 top-0 bg-red-600 text-white rounded-full text-xs p-1">
+              {carts?.data?.items?.length}
+            </Badge>
+          </Button>
           {isLoading && <Spinner />}
           {!user && !isLoading && (
             <>
