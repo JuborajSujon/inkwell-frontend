@@ -31,10 +31,10 @@ const cartSlice = createSlice({
       state.isError = false;
       state.error = null;
     },
-    setSelectedUser: (state, action) => {
+    setSelectedCart: (state, action) => {
       state.selectedCart = action.payload;
     },
-    clearSelectedUser: (state) => {
+    clearSelectedCart: (state) => {
       state.selectedCart = null;
     },
   },
@@ -44,8 +44,8 @@ export const {
   setLoading,
   setError,
   clearError,
-  setSelectedUser,
-  clearSelectedUser,
+  setSelectedCart,
+  clearSelectedCart,
 } = cartSlice.actions;
 
 // Selectors
