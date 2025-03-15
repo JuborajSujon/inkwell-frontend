@@ -28,7 +28,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { imageUpload } from "@/utils/imageUpload";
 import { useUpdateProductMutation } from "@/redux/features/product/productApi";
-import { onClose } from "@/redux/features/register/registerSlice";
 
 // Define the form validation schema using Zod
 const productSchema = z.object({
