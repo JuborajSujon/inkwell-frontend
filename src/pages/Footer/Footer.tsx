@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="px-10 md:px-4 divide-y">
@@ -16,70 +18,39 @@ export default function Footer() {
         <div className="grid grid-cols-2 text-sm gap-x-3 gap-y-8 lg:w-2/3 sm:grid-cols-4">
           <div className="space-y-3">
             <h3 className="tracking-wide uppercase text-gray-900 dark:text-gray-50">
-              Product
+              General
             </h3>
             <ul className="space-y-1">
               <li>
-                <a rel="noopener noreferrer" href="#">
-                  Features
-                </a>
+                <Link to={"/"}>Home</Link>
               </li>
               <li>
-                <a rel="noopener noreferrer" href="#">
-                  Integrations
-                </a>
+                <Link to={"/all-products"}>Products</Link>
               </li>
               <li>
-                <a rel="noopener noreferrer" href="#">
-                  Pricing
-                </a>
+                <a rel="noopener noreferrer" href="#"></a>
               </li>
               <li>
-                <a rel="noopener noreferrer" href="#">
-                  FAQ
-                </a>
+                <Link to={"/about"}>About</Link>
               </li>
             </ul>
           </div>
           <div className="space-y-3">
             <h3 className="tracking-wide uppercase text-gray-900 dark:text-gray-50">
-              Company
+              Order details
             </h3>
             <ul className="space-y-1">
               <li>
-                <a rel="noopener noreferrer" href="#">
-                  Privacy
-                </a>
+                <Link to={"/dashboard/carts/my-cart-list"}>My cart</Link>
               </li>
               <li>
-                <a rel="noopener noreferrer" href="#">
-                  Terms of Service
-                </a>
+                <Link to={"/dashboard/orders/order-details"}>
+                  Order details
+                </Link>
               </li>
             </ul>
           </div>
-          <div className="space-y-3">
-            <h3 className="uppercase text-gray-900 dark:text-gray-50">
-              Developers
-            </h3>
-            <ul className="space-y-1">
-              <li>
-                <a rel="noopener noreferrer" href="#">
-                  Public API
-                </a>
-              </li>
-              <li>
-                <a rel="noopener noreferrer" href="#">
-                  Documentation
-                </a>
-              </li>
-              <li>
-                <a rel="noopener noreferrer" href="#">
-                  Guides
-                </a>
-              </li>
-            </ul>
-          </div>
+
           <div className="space-y-3">
             <div className="uppercase text-gray-900 dark:text-gray-50">
               Social media
