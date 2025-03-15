@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
+import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://inkwell-backend.vercel.app/api",
@@ -42,7 +43,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       data?: ErrorResponse;
     };
 
-    if (status === 404 || status === 403) {
+    if (status === 403) {
+      toast.error(data?.message || "An error occurred");
+    }
+    if (status === 404) {
       console.error(data?.message || "An error occurred");
     }
 
