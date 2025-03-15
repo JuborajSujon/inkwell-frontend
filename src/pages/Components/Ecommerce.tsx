@@ -2,6 +2,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import userImg from "@/assets/avater1.png";
+import userImg2 from "@/assets/avater2.jpg";
+import userImg3 from "@/assets/avater3.jpg";
 
 const testimonials = [
   {
@@ -9,18 +12,21 @@ const testimonials = [
     review:
       "Inkwell's notebooks are top-notch! The paper quality is amazing, and the designs are stunning.",
     rating: 5,
+    img: userImg,
   },
   {
     name: "Mark Thompson",
     review:
       "Fast delivery and excellent customer service. Highly recommend this shop!",
     rating: 4,
+    img: userImg2,
   },
   {
     name: "Sophie Williams",
     review:
       "Great selection of pens! I've been using them for journaling, and they write so smoothly.",
     rating: 5,
+    img: userImg3,
   },
 ];
 
@@ -64,10 +70,7 @@ export default function EcommerceSections() {
               <CardContent>
                 <div className="flex justify-center mb-4">
                   <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
+                    <AvatarImage src={testimonial.img} alt={testimonial.name} />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </div>
