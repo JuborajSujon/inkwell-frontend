@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import {
   ChefHat,
+  CreditCard,
   Edit,
   Home,
   Key,
@@ -78,12 +79,32 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
       ],
     },
     {
+      group: "Cart Management",
+      items: [
+        {
+          link: "/dashboard/carts/my-cart-list",
+          icon: <ShoppingCart className="w-5 h-5" />,
+          text: "My Cart",
+        },
+      ],
+    },
+    {
       group: "Orders Management",
       items: [
         {
-          link: "/dashboard/orders",
+          link: "/dashboard/orders/checkout",
+          icon: <CreditCard className="w-5 h-5" />,
+          text: "Checkout",
+        },
+        {
+          link: "/dashboard/orders/order-details",
+          icon: <List className="w-5 h-5" />,
+          text: "My Orders History",
+        },
+        {
+          link: "/dashboard/orders/update-order",
           icon: <ChefHat className="w-5 h-5" />,
-          text: "Orders Profile",
+          text: "Udpate Orders",
         },
       ],
     },
@@ -126,6 +147,21 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
         },
       ],
     },
+    {
+      group: "Orders Management",
+      items: [
+        {
+          link: "/dashboard/orders/checkout",
+          icon: <CreditCard className="w-5 h-5" />,
+          text: "Checkout",
+        },
+        {
+          link: "/dashboard/orders/order-details",
+          icon: <List className="w-5 h-5" />,
+          text: "My Orders History",
+        },
+      ],
+    },
   ];
 
   return (
@@ -162,7 +198,7 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
               {userData?.role === "admin" ? (
                 <>
                   <Command>
-                    <CommandList className="h-screen">
+                    <CommandList className="min-h-[90vh]">
                       {adminMenuList?.map((menu, key: number) => (
                         <CommandGroup key={key} heading={menu.group}>
                           {menu?.items?.map((option, keyOption: number) => (
@@ -192,7 +228,7 @@ const Sidebar = ({ handleToggle, isActive }: SidebarProps) => {
               ) : (
                 <>
                   <Command>
-                    <CommandList className="h-screen">
+                    <CommandList className="min-h-[90vh]">
                       {userMenuList?.map((menu, key: number) => (
                         <CommandGroup key={key} heading={menu.group}>
                           {menu?.items?.map((option, keyOption: number) => (

@@ -16,6 +16,11 @@ import UserList from "@/pages/Dashboard/AdminPages/UserList";
 import UserProfilePage from "@/pages/Dashboard/UserProfile";
 import ChangePassword from "@/pages/Dashboard/ChangePassword";
 import CartPage from "@/pages/Dashboard/CartPage";
+import CheckoutPage from "@/pages/Dashboard/Checkout";
+import VerifyOrder from "@/pages/Dashboard/VerifyOrder";
+import OrderDetails from "@/pages/Dashboard/OrderDetails";
+import DashboardHome from "@/pages/Dashboard/AdminPages/DashboardHome";
+import OrderList from "@/pages/Dashboard/AdminPages/OrderList";
 
 const routes = createBrowserRouter([
   {
@@ -39,23 +44,6 @@ const routes = createBrowserRouter([
         path: "/product/:id",
         element: <ProductDetails />,
       },
-      {
-        path: "/checkout/:id",
-        element: (
-          <PrivateRoute>
-            <div>Checkout</div>
-          </PrivateRoute>
-        ),
-      },
-
-      {
-        path: "/payment/:id",
-        element: (
-          <PrivateRoute>
-            <div>Payment</div>
-          </PrivateRoute>
-        ),
-      },
     ],
   },
   {
@@ -69,7 +57,7 @@ const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div>Dashboard Home</div>,
+        element: <DashboardHome />,
       },
       {
         path: "/dashboard/product/create-product",
@@ -107,6 +95,26 @@ const routes = createBrowserRouter([
       {
         path: "/dashboard/carts/my-cart-list",
         element: <CartPage />,
+      },
+      {
+        path: "/dashboard/orders/checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "/dashboard/orders/verify-order",
+        element: <VerifyOrder />,
+      },
+      {
+        path: "/dashboard/orders/order-details",
+        element: <OrderDetails />,
+      },
+      {
+        path: "/dashboard/orders/update-order",
+        element: (
+          <AdminRoute role="admin">
+            <OrderList />
+          </AdminRoute>
+        ),
       },
     ],
   },
