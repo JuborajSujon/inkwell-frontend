@@ -4,7 +4,7 @@ import { useGetAllCartQuery } from "@/redux/features/cart/cartApi";
 import { useGetSingleUserQuery } from "@/redux/features/user/userApi";
 import { useAppSelector } from "@/redux/hook";
 import { ICartItem } from "@/types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useCreateOrderMutation } from "@/redux/features/order/orderApi";
 import Spinner from "@/components/spinner";
@@ -12,7 +12,6 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 const CheckoutPage = () => {
-  const navigate = useNavigate();
   const userInfo = useAppSelector(useCurrentUser);
   const email = userInfo?.email;
 
@@ -125,35 +124,49 @@ const CheckoutPage = () => {
 
         {/* Delivery Address */}
         <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Order Title */}
           <div>
             <label className="block text-sm font-medium">Order Title</label>
             <input
               type="text"
               defaultValue="Order Invoice"
-              {...register("orderTitle", { required: true })}
+              {...register("orderTitle", {
+                required: "Order title is required.",
+              })}
               className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-gray-100"
             />
             {errors.orderTitle && (
-              <p className="text-red-500">Order title is required.</p>
+              <p className="text-red-500">
+                {errors.orderTitle?.message?.toString()}
+              </p>
             )}
           </div>
+
+          {/* Delivery Address */}
           <div>
             <label className="block text-sm font-medium">
               Delivery Address
             </label>
             <input
               type="text"
-              value={user?.shippingAddress || ""}
-              {...register("shippingAddress", { required: true })}
+              defaultValue={user?.shippingAddress || ""}
+              {...register("shippingAddress", {
+                required: "Delivery address is required.",
+              })}
               className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-gray-100"
             />
+            {errors.shippingAddress && (
+              <p className="text-red-500">
+                {errors.shippingAddress?.message?.toString()}
+              </p>
+            )}
           </div>
 
           {/* Confirm Order Button */}
           <Button
-            disabled={!carts?.data.items.length}
             type="submit"
-            className="mt-4">
+            className="mt-4"
+            disabled={!carts?.data.items.length || isCreatingOrder}>
             {isCreatingOrder ? "Confirming..." : "Confirm Order"}
           </Button>
         </form>
