@@ -26,7 +26,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         alt={product.name}
         className="w-full h-48 object-cover rounded-md"
       />
-      <CardContent className="text-center space-y-3 mt-4 flex flex-col flex-grow">
+      <CardContent className="text-center space-y-1 mt-4 flex flex-col flex-grow">
         <h3 className="text-xl font-semibold">{product.name}</h3>
         <p className=" flex-grow">{product.description}</p>
         <p className="text-sm text-gray-500">{product.brand}</p>
