@@ -101,7 +101,7 @@ export default function Navbar() {
             className="relative">
             <ShoppingCart className="h-6 w-6" />
             <Badge className="absolute right-0 top-0 bg-red-600 text-white rounded-full text-xs p-1">
-              {carts?.data?.items?.length}
+              {carts?.data?.items?.length || 0}
             </Badge>
           </Button>
           {isLoading && <Spinner />}
