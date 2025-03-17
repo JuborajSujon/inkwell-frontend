@@ -388,6 +388,7 @@ export const CreateProduct = () => {
                           Art Supplies
                         </SelectItem>
                         <SelectItem value="Educational">Educational</SelectItem>
+                        <SelectItem value="Technology">Technology</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

@@ -313,6 +313,7 @@ export const UpdateProduct = ({ product, onClose }: any) => {
                     </SelectItem>
                     <SelectItem value="Art Supplies">Art Supplies</SelectItem>
                     <SelectItem value="Educational">Educational</SelectItem>
+                    <SelectItem value="Technology">Technology</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
