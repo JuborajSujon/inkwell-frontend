@@ -13,6 +13,7 @@ import image2 from "@/assets/avater2.jpg";
 import image3 from "@/assets/avater3.jpg";
 import { useCreateAndUpdateCartMutation } from "@/redux/features/cart/cartApi";
 import { toast } from "sonner";
+import PlaceholderImage from "@/assets/placeholder image.png";
 
 const outdoor = {
   id: 1,
@@ -219,12 +220,14 @@ export default function ProductDetails() {
                 }) => (
                   <Card key={item._id} className="p-4 shadow-md">
                     <img
-                      src={item.photo}
+                      src={item.photo || PlaceholderImage}
                       alt={item.name}
                       className="w-full rounded-md"
                     />
                     <CardContent className="text-center mt-3">
-                      <h3 className="text-lg font-semibold">{item.name}</h3>
+                      <h3 className="text-lg font-semibold truncate">
+                        {item.name}
+                      </h3>
                       <p className="text-muted-foreground">{item.price}</p>
                       <Link to={`/product/${item._id}`}>
                         <Button className="mt-2 w-full">View Details</Button>
