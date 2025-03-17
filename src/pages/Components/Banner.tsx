@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Banner1 from "@/assets/banner1.jpg";
+import Banner2 from "@/assets/banner2.webp";
+import Banner3 from "@/assets/banner3.jpg";
 
 const offers = [
   {
     title: "Exclusive Stationery Deals!",
     description: "Get up to 30% off on premium notebooks and pens.",
-    image: "/src/assets/banner1.jpg",
+    image: Banner1,
   },
   {
     title: "New Arrivals!",
     description:
       "Explore our latest collection of artistic tools and planners.",
-    image: "/src/assets/banner2.webp",
+    image: Banner2,
   },
   {
     title: "Limited-Time Offer!",
     description: "Buy 2 get 1 free on all writing essentials.",
-    image: "/src/assets/banner3.jpg",
+    image: Banner3,
   },
 ];
 

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import LogoImg from "@/assets/logo.png";
 
 export default function Logo() {
   return (
@@ -6,7 +7,7 @@ export default function Logo() {
       <Link to={"/"}>
         <span className="hidden md:flex items-center gap-x-1">
           <img
-            src="/src/assets/logo.png"
+            src={LogoImg}
             width={40}
             height={40}
             alt="Logo"

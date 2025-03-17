@@ -1,4 +1,4 @@
-import { OrderItem, Product } from "@/pages/Dashboard/OrderDetails";
+import { OrderItem } from "@/pages/Dashboard/OrderDetails";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import LogoImg from "@/assets/logo.png";
 
 export default function Footer() {
   return (
@@ -10,7 +11,7 @@ export default function Footer() {
             href="#"
             className="flex justify-center space-x-0 lg:justify-start">
             <div className="flex items-center justify-center w-10 h-10">
-              <img src="/src/assets/logo.png" alt="logo" className="w-8" />
+              <img src={LogoImg} alt="logo" className="w-8" />
             </div>
             <span className="self-center text-2xl font-semibold">INKWELL</span>
           </a>
