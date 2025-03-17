@@ -45,7 +45,6 @@ const OrderUpdate = ({ order, onClose }: any) => {
   return (
     <div>
       {/* order data table */}
-
       {order?.orderItems.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm">
@@ -55,12 +54,10 @@ const OrderUpdate = ({ order, onClose }: any) => {
                 <th className="py-3 px-4 text-left">Name</th>
                 <th className="py-3 px-4 text-left">Price</th>
                 <th className="py-3 px-4 text-left">Stock QTY</th>
-
                 <th className="py-3 px-4 text-left">Order QTY</th>
                 <th className="py-3 px-4 text-left">Order Price</th>
                 <th className="py-3 px-4 text-left">Order Date</th>
                 <th className="py-3 px-4 text-left">Delivery Date</th>
-
                 <th className="py-3 px-4 text-left">Actions</th>
               </tr>
             </thead>
@@ -76,7 +73,9 @@ const OrderUpdate = ({ order, onClose }: any) => {
                       className="h-12 w-12"
                     />
                   </td>
-                  <td className="py-3 px-4">{product?.productDetails?.name}</td>
+                  <td className="py-3 px-4 whitespace-nowrap">
+                    {product?.productDetails?.name}
+                  </td>
                   <td className="py-3 px-4">
                     {product?.productDetails?.price}
                   </td>

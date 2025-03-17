@@ -34,10 +34,10 @@ export default function AllProduct() {
   const [currentPage, setCurrentPage] = useState(1);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 2000]);
+  const [priceRange, setPriceRange] = useState([0, 20000]);
   const [inStock, setInStock] = useState(true);
 
-  const limit = 10;
+  const limit = 12;
 
   // Fetch products with filters
   const { data, isLoading, error } = useGetAllProductsQuery({
@@ -48,7 +48,7 @@ export default function AllProduct() {
     "price[lte]": priceRange[1],
     inStock,
     page: currentPage || 1,
-    limit: limit || 10,
+    limit: limit || 12,
   });
 
   const products = data?.data || [];
@@ -70,7 +70,7 @@ export default function AllProduct() {
     setSearchTerm("");
     setCategory("");
     setBrand("");
-    setPriceRange([0, 2000]);
+    setPriceRange([0, 20000]);
     setInStock(true);
     setCurrentPage(1);
   };
@@ -125,7 +125,7 @@ export default function AllProduct() {
           </p>
           <Slider
             min={0}
-            max={2000}
+            max={20000}
             value={priceRange}
             onValueChange={(value) => setPriceRange(value)}
           />

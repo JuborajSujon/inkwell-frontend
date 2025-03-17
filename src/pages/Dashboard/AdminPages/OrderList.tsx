@@ -112,11 +112,31 @@ const OrderList = () => {
                       <td className="py-3 px-4">
                         {order?.productItems?.totalPrice}
                       </td>
-                      <td className="py-3 px-4">
-                        {order?.productItems?.paymentStatus}
+                      <td
+                        className={`py-3 px-4 ${
+                          order?.productItems?.paymentStatus === "paid"
+                            ? "text-green-500"
+                            : order?.productItems?.paymentStatus === "Cancelled"
+                            ? "text-yellow-500"
+                            : order?.productItems?.paymentStatus === "pending"
+                            ? "text-red-500"
+                            : "text-gray-500"
+                        }`}>
+                        {order?.productItems?.paymentStatus || "N/A"}
                       </td>
-                      <td className="py-3 px-4">
-                        {order?.productItems?.deliverystatus}
+
+                      <td
+                        className={`py-3 px-4 ${
+                          order?.productItems?.deliverystatus === "shipping"
+                            ? "text-green-500"
+                            : order?.productItems?.deliverystatus ===
+                              "Processing"
+                            ? "text-yellow-500"
+                            : order?.productItems?.deliverystatus === "pending"
+                            ? "text-red-500"
+                            : "text-gray-500"
+                        }`}>
+                        {order?.productItems?.deliverystatus || "N/A"}
                       </td>
                       <td className="py-3 px-4 text-nowrap">
                         {order?.productItems?.shippingAddress}
@@ -154,9 +174,22 @@ const OrderList = () => {
         </CardFooter>
       </Card>
 
+      {/* Update Modal
+      <Dialog open={isUpdateModalOpen} onOpenChange={setIsUpdateModalOpen}>
+        <DialogContent className="w-full max-w-full mx-4">
+          <DialogHeader>
+            <DialogTitle>Update Order</DialogTitle>
+            <DialogDescription className="sr-only">
+              Edit the details of the product.
+            </DialogDescription>
+          </DialogHeader>
+          <OrderUpdate order={selectedOrder} onClose={setIsUpdateModalOpen} />
+        </DialogContent>
+      </Dialog> */}
+
       {/* Update Modal */}
       <Dialog open={isUpdateModalOpen} onOpenChange={setIsUpdateModalOpen}>
-        <DialogContent className="w-full max-w-7xl mx-4">
+        <DialogContent className="w-full max-w-full mx-4 max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Update Order</DialogTitle>
             <DialogDescription className="sr-only">
