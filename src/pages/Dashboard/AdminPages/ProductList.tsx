@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog"; // ShadCN Modal
 import UpdateProduct from "@/components/modal/use-update-product";
 import Spinner from "@/components/spinner";
+import PlaceholderImage from "@/assets/placeholder image.png";
 
 interface IProduct {
   _id: string;
@@ -34,6 +35,7 @@ interface IProduct {
   category: string;
   price: number;
   quantity: number;
+  photo: string;
   inStock: boolean;
 }
 
@@ -132,6 +134,7 @@ const ProductList = () => {
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr className="border-b">
+                    <th className="py-3 px-4 text-left">Image</th>
                     <th className="py-3 px-4 text-left">Name</th>
                     <th className="py-3 px-4 text-left">Brand</th>
                     <th className="py-3 px-4 text-left">Category</th>
@@ -146,7 +149,14 @@ const ProductList = () => {
                     <tr
                       key={product._id}
                       className="border-b hover:bg-slate-100 dark:hover:bg-slate-800">
-                      <td className="py-3 px-4">{product.name}</td>
+                      <td className="py-3 px-4">
+                        <img
+                          src={product.photo || PlaceholderImage}
+                          alt={product.name}
+                          className="w-12 h-12 object-cover"
+                        />
+                      </td>
+                      <td className="py-3 px-4 text-nowrap">{product.name}</td>
                       <td className="py-3 px-4">{product.brand}</td>
                       <td className="py-3 px-4">{product.category}</td>
                       <td className="py-3 px-4">${product.price.toFixed(2)}</td>
