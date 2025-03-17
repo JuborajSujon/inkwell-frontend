@@ -102,98 +102,101 @@ export default function OrderDetails() {
               <strong>User Email:</strong> {order.userEmail}
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2">
-            <div>
-              <p>
-                <strong>Order Date:</strong>{" "}
-                {new Date(order.createdAt).toLocaleString()}
-              </p>
-              <p>
-                <strong>Last Updated:</strong>{" "}
-                {new Date(order.updatedAt).toLocaleString()}
-              </p>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <p>
+                  <strong>Order Date:</strong>{" "}
+                  {new Date(order.createdAt).toLocaleString()}
+                </p>
+                <p>
+                  <strong>Last Updated:</strong>{" "}
+                  {new Date(order.updatedAt).toLocaleString()}
+                </p>
+              </div>
+              <div>
+                <p>
+                  <strong>Grand Total Price:</strong> $
+                  {order.productItems
+                    .reduce(
+                      (acc: number, item: ProductItem) => acc + item.totalPrice,
+                      0
+                    )
+                    .toFixed(2)}
+                </p>
+              </div>
             </div>
-            <div>
-              <p>
-                <strong>Grand Total Price:</strong> $
-                {order.productItems
-                  .reduce(
-                    (acc: number, item: ProductItem) => acc + item.totalPrice,
-                    0
-                  )
-                  .toFixed(2)}
-              </p>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3 p-2">
+              {order?.productItems?.map((productItem: ProductItem) => (
+                <Card key={productItem._id} className="p-4 border rounded-lg">
+                  <CardHeader>
+                    <CardTitle>
+                      {productItem.orderTitle} {productItem.orderInvoice}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p>
+                      <strong>Product Quantity: </strong>{" "}
+                      {productItem.orderItems.length}
+                    </p>
+
+                    <p>
+                      <strong>Total Price:</strong> $
+                      {productItem.totalPrice.toFixed(2)}
+                    </p>
+
+                    <div className="flex gap-2">
+                      <strong>Payment Status:</strong>
+                      <Badge
+                        className={cn(
+                          productItem?.paymentStatus === "paid"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        )}>
+                        {productItem?.paymentStatus}
+                      </Badge>
+                    </div>
+
+                    <div className="flex gap-2 mt-1">
+                      <strong>Delivery Status:</strong>
+                      <Badge
+                        className={cn(
+                          productItem?.deliverystatus === "pending"
+                            ? "bg-red-500"
+                            : "bg-green-500"
+                        )}>
+                        {productItem?.deliverystatus}
+                      </Badge>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Bank Transaction:</strong>{" "}
+                        {productItem.transaction.bank_status}
+                      </p>
+                      <p>
+                        <strong>Transaction Method:</strong>{" "}
+                        {productItem.transaction.method}
+                      </p>
+                      <p>
+                        <strong>Transaction Data:</strong>{" "}
+                        {new Date(
+                          productItem.transaction.date_time
+                        ).toLocaleString()}
+                      </p>
+                      <p>
+                        <strong>Shipping Address:</strong>{" "}
+                        {productItem.shippingAddress}
+                      </p>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <OrderViewModal products={productItem.orderItems} />
+                  </CardFooter>
+                </Card>
+              ))}
             </div>
           </CardContent>
-          <div className="grid grid-cols-1 gap-3 p-2">
-            {order?.productItems?.map((productItem: ProductItem) => (
-              <Card key={productItem._id} className="p-4 border rounded-lg">
-                <CardHeader>
-                  <CardTitle>
-                    {productItem.orderTitle} {productItem.orderInvoice}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p>
-                    <strong>Product Quantity: </strong>{" "}
-                    {productItem.orderItems.length}
-                  </p>
-
-                  <p>
-                    <strong>Total Price:</strong> $
-                    {productItem.totalPrice.toFixed(2)}
-                  </p>
-
-                  <div className="flex gap-2">
-                    <strong>Payment Status:</strong>
-                    <Badge
-                      className={cn(
-                        productItem?.paymentStatus === "paid"
-                          ? "bg-green-500"
-                          : "bg-red-500"
-                      )}>
-                      {productItem?.paymentStatus}
-                    </Badge>
-                  </div>
-
-                  <div className="flex gap-2 mt-1">
-                    <strong>Delivery Status:</strong>
-                    <Badge
-                      className={cn(
-                        productItem?.deliverystatus === "pending"
-                          ? "bg-red-500"
-                          : "bg-green-500"
-                      )}>
-                      {productItem?.deliverystatus}
-                    </Badge>
-                  </div>
-                  <div>
-                    <p>
-                      <strong>Bank Transaction:</strong>{" "}
-                      {productItem.transaction.bank_status}
-                    </p>
-                    <p>
-                      <strong>Transaction Method:</strong>{" "}
-                      {productItem.transaction.method}
-                    </p>
-                    <p>
-                      <strong>Transaction Data:</strong>{" "}
-                      {new Date(
-                        productItem.transaction.date_time
-                      ).toLocaleString()}
-                    </p>
-                    <p>
-                      <strong>Shipping Address:</strong>{" "}
-                      {productItem.shippingAddress}
-                    </p>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <OrderViewModal products={productItem.orderItems} />
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
         </div>
       ))}
     </div>
