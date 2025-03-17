@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { imageUpload } from "@/utils/imageUpload";
 import { useUpdateProductMutation } from "@/redux/features/product/productApi";
+import axios from "axios";
 
 // Define the form validation schema using Zod
 const productSchema = z.object({
@@ -73,6 +74,41 @@ export const UpdateProduct = ({ product, onClose }: any) => {
   });
 
   // Handle file change for image upload
+  // const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
+
+  //   // Check file type
+  //   if (!file.type.includes("image")) {
+  //     toast.error("Please upload an image file");
+  //     return;
+  //   }
+
+  //   // Check file size (max 5MB)
+  //   if (file.size > 5 * 1024 * 1024) {
+  //     toast.error("File size should be less than 5MB");
+  //     return;
+  //   }
+
+  //   // Create a preview of the selected image
+  //   // Upload the image to ImgBB
+  //   try {
+  //     const image_data = await imageUpload(file);
+
+  //     if (image_data.success) {
+  //       const imageUrl = image_data.data.display_url;
+  //       form.setValue("photo", imageUrl);
+  //       setPreviewImage(imageUrl);
+  //       toast.success("Image uploaded successfully!");
+  //     } else {
+  //       toast.error("Image upload failed, please try again.");
+  //     }
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //   } catch (error) {
+  //     toast.error("Image upload error, please try again.");
+  //   }
+  // };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -89,31 +125,54 @@ export const UpdateProduct = ({ product, onClose }: any) => {
       return;
     }
 
-    // Create a preview of the selected image
-    // Upload the image to ImgBB
-    try {
-      const image_data = await imageUpload(file);
+    // Create a fresh AbortController for this request
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-      if (image_data.success) {
+    // Toast step
+    const toastId = toast.loading("Uploading image...");
+
+    // Set a timeout to cancel the request if it takes too long (60s)
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      toast.error("Upload took too long. You can add an image later.", {
+        id: toastId,
+      });
+    }, 60000);
+
+    try {
+      // Upload image with timeout handling
+      const image_data = await imageUpload(file, { signal });
+
+      if (image_data?.success) {
         const imageUrl = image_data.data.display_url;
         form.setValue("photo", imageUrl);
         setPreviewImage(imageUrl);
-        toast.success("Image uploaded successfully!");
+        toast.success("Image uploaded successfully!", { id: toastId });
       } else {
-        toast.error("Image upload failed, please try again.");
+        throw new Error("Image upload failed");
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Image upload error, please try again.");
+    } catch (error: any) {
+      if (axios.isCancel(error)) {
+        toast.error(
+          "Image upload was cancelled. Upload took too long. You can add an image later.",
+          { id: toastId }
+        );
+      } else {
+        toast.error(error.message || "Image upload error, please try again.");
+      }
+
+      // Reset image field so user can retry
+      form.setValue("photo", "");
+      setPreviewImage(null);
+    } finally {
+      clearTimeout(timeoutId); // Ensure timeout is cleared
     }
   };
 
   const onSubmit: SubmitHandler<ProductFormData> = async (data) => {
     try {
       const res = await updateProduct({ id: product._id, data }).unwrap();
-
-      console.log(res);
-
       if (res.success) {
         toast.success(res.message);
         onClose(false);
