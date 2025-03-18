@@ -14,6 +14,8 @@ import image3 from "@/assets/avater3.jpg";
 import { useCreateAndUpdateCartMutation } from "@/redux/features/cart/cartApi";
 import { toast } from "sonner";
 import PlaceholderImage from "@/assets/placeholder image.png";
+import { useAppSelector } from "@/redux/hook";
+import { useCurrentUser } from "@/redux/features/auth/authSlice";
 
 const outdoor = {
   id: 1,
@@ -34,6 +36,7 @@ const outdoor = {
 };
 
 export default function ProductDetails() {
+  const user = useAppSelector(useCurrentUser);
   const navigate = useNavigate();
   const { id } = useParams();
   const { data, isLoading } = useGetProductByIdQuery(id);
@@ -81,14 +84,20 @@ export default function ProductDetails() {
   // Add product to cart
   const handleAddToCart = async (productId: string, quantity: number) => {
     try {
-      const productData = { productId, quantity: quantity };
+      // if user not logged in, redirect to login page
+      if (!user) {
+        navigate("/login");
+      } else if (user) {
+        const productData = { productId, quantity: quantity };
 
-      const res = await createAndUpdateCart(productData).unwrap();
-      if (res.success) {
-        toast.success("Cart added successfully");
-        navigate(-1);
-        // navigate("/dashboard/carts/my-cart-list");
+        const res = await createAndUpdateCart(productData).unwrap();
+        if (res.success) {
+          toast.success("Cart added successfully");
+          navigate(-1);
+          // navigate("/dashboard/carts/my-cart-list");
+        }
       }
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Failed to add to cart");
