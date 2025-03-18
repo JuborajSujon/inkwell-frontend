@@ -2,7 +2,7 @@
 
 A modern web application for managing and browsing stationary products, developed using React, TypeScript, and Redux. This project utilizes several state-of-the-art libraries and tools, including ShadCN UI for styling and TailwindCSS for custom design. The app provides users with features like product browsing, cart management, and profile customization.
 
-- **Live Link**: [https://inkwell-client.netlify.app/](https://inkwell-client.netlify.app/)
+- **Live Link**: [https://inkwell-stationery.netlify.app/](https://inkwell-stationery.netlify.app/)
 
 ## Admin Credentials
 
