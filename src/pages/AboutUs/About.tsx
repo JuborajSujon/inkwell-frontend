@@ -10,6 +10,7 @@ import {
   Palette,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import StationeryTools from "@/assets/Stationery tools.jpg";
 
 export default function AboutUs() {
   return (
@@ -53,7 +54,7 @@ export default function AboutUs() {
         </div>
         <div className="relative">
           <img
-            src="/src/assets/Stationery tools.jpg"
+            src={StationeryTools}
             alt="Stationery tools"
             className="rounded-lg shadow-md"
           />
